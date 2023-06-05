@@ -1,0 +1,42 @@
+[
+    {
+        "nome": "Bel",
+        "cpf_cnpj": "124567892",
+        "endereco": "Lago",
+        "telefone": "(61)99999-9999",
+        "numeroConta": "1107",
+        "senha": "000000"
+    },
+    {
+        "nome": "Fernanda",
+        "cpf_cnpj": "09876543210",
+        "endereco": "Asa Norte",
+        "telefone": "(61)99999-8888",
+        "numeroConta": "2501",
+        "senha": "012345"
+    },
+    {
+        "nome": "Gabriel",
+        "cpf_cnpj": "91827364501",
+        "endereco": "Asa sul",
+        "telefone": "(61)98888-8888",
+        "numeroConta": "1701",
+        "senha": "250101"
+    },
+    {
+        "nome": "Dilene",
+        "cpf_cnpj": "098765432109",
+        "endereco": "Nil\u00f3polis",
+        "telefone": "(21)99999-9999",
+        "numeroConta": "1112",
+        "senha": "240205"
+    },
+    {
+        "nome": "Rodrigo",
+        "cpf_cnpj": "111111111111",
+        "endereco": "Gama",
+        "telefone": "(61)97777-7777",
+        "numeroConta": "1807",
+        "senha": "131415"
+    }
+]
