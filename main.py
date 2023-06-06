@@ -1,3 +1,11 @@
+# Código feito por: Fernanda Noronha
+# Versão 3.0  05/06/2023
+# Funcao do gerente atualizar o cadastro e apagar cliente
+# Organizar os métodos da gerente.
+#Verificar erro json, cliente logado e data
+#Fazer o extrato
+#Fazer o UML
+
 from Views.menu import *
 from Controllers.transacaoController import TransacaoController
 from Controllers.clienteController import ClienteController
@@ -45,7 +53,7 @@ if senha == 'gerente':
         senha = input('Insira sua senha de 6 dígitos: \n')
         print('................................................................................')
 
-        clientesController.registrarCliente(nome, cpf_cnpj,endereco,telefone,noConta, senha)
+        clientesController.registrarCliente(nome, cpf_cnpj,endereco,telefone,noConta, senha,0)
         clienteLogado = {}
 else:
    
@@ -68,18 +76,28 @@ if clienteLogado != {}:
 
         if operacao == '1':
             print('Você escolheu sacar dinheiro.')
-            valor = input('Qual valor você quer depositar? \n')
-            TransacaoController.registrarTransacaoDeposito(clienteLogado['numeroConta'], valor)
+            valor = float(input('Qual valor você quer sacar? \n'))
+            clientesController.saque(valor,clienteLogado)
+            extratosController.registrarTransacao('Saque',valor,clienteLogado['numeroConta'],0)
 
         elif operacao == '2':
             print('Você escolheu depositar dinheiro.')
-
+            valor = float(input('Qual valor você quer depositar? \n'))
+            clientesController.deposito(valor,clienteLogado)
+            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            
         elif operacao == '3':
-            print('Você está solicitando crédito')
-
+            print('Você escolheu a operação solicitar crédito')
+            valor = float(input('Qual valor você quer solicitar? \n'))
+            parcelas=int(input('Quantas parcelas você vai querer?'))
+            data=input('Qual dia do mes você vai querer realizar o pagamento das parcelas?')
+            clientesController.solicitarCredito(clienteLogado['numeroConta'],valor,parcelas,data)
+            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
         elif operacao == '4':
-            print('Você está realizando um pagamento programado')
-
+            print('Você eescolheu a operação de pagamento programado')
+            valor = float(input('Qual valor você quer depositar? \n'))
+            clientesController.pagamentoProgramado(valor,clienteLogado)
+            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
         elif operacao == '5':
             print('Você vai emitir extrato')
 
@@ -91,3 +109,7 @@ if clienteLogado != {}:
         operacao = input('Escolha uma operacao: ')
 
 print('Sessão encerrada!')
+
+
+#Arrumar todos os clientes
+#instanciar os dois módulos e torcer pra dar certo agora XD
