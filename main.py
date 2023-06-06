@@ -1,9 +1,10 @@
 # Código feito por: Fernanda Noronha
-# Versão 3.0  05/06/2023
+# Versão 3.5  06/06/2023
 # Funcao do gerente atualizar o cadastro e apagar cliente
 # Organizar os métodos da gerente.
-#Verificar erro json, cliente logado e data
-#Fazer o extrato
+#Verificar pq coloca conta duas vezes no json
+#Verificar funções de pagamento programado e crédito
+#Fazer as verificações de tudo! aaaaaaaaa
 #Fazer o UML
 
 from Views.menu import *
@@ -93,9 +94,10 @@ if clienteLogado != {}:
             data=input('Qual dia do mes você vai querer realizar o pagamento das parcelas?')
             clientesController.solicitarCredito(clienteLogado['numeroConta'],valor,parcelas,data)
             extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            
         elif operacao == '4':
-            print('Você eescolheu a operação de pagamento programado')
-            valor = float(input('Qual valor você quer depositar? \n'))
+            print('Você escolheu a operação de pagamento programado')
+            valor = float(input('Qual valor do seu pagamento programado? \n'))
             clientesController.pagamentoProgramado(valor,clienteLogado)
             extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
         elif operacao == '5':

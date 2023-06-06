@@ -87,7 +87,7 @@ class Conta():
 
 class Transacao(Conta):
     
-    def __init__(self, noConta, tipo, valor, data='0'):
+    def __init__(self, tipo, valor, noConta, data='0'):
         super().__init__(noConta)
         self.conta = noConta
         self.tipo = tipo

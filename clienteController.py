@@ -1,6 +1,6 @@
 import json
 from Models.models import Cliente
-import datetime
+from datetime import date
 
 class ClienteController():
     def __init__(self, clienteList, clientesDir):
@@ -10,7 +10,6 @@ class ClienteController():
         with open(self.clientesDir, 'w') as updateFile:
             json.dump(self.clientesList, updateFile, indent=4)
     def registrarCliente (self, nome, cpf_cnpj, endereco, telefone, numeroConta, senha, saldo):
-        #date = datetime.now()
         novoCliente = Cliente(nome, cpf_cnpj, endereco, telefone, numeroConta, senha, saldo)
         converteCliente = vars(novoCliente)
         self.clientesList.append(converteCliente)
@@ -39,9 +38,11 @@ class ClienteController():
         for cliente in self.clientesList:
             if cliente['numeroConta'] == clienteLogado['numeroConta']:
                 data = input('Qual é a data do pagamento programado? [DD-MM-AAAA]\n')
-                hoje =datetime.now().strftime("%d-%m-%Y")
+                hoje =date.today().strftime("%d-%m-%Y")
                 if data==hoje and cliente['saldo']>=valor:
                     cliente['saldo'] -= valor
+                elif data!=hoje:
+                    cliente['saldo'] = cliente['saldo']
                 elif data==hoje and cliente['saldo']<valor:
                     print("Operação não realiza! Saldo insuficiente.")  
                 else:
@@ -58,7 +59,7 @@ class ClienteController():
                     taxa = 1+0.15^parcela
                     valorParcela = (taxa*credito)/parcela
                 saldo+=credito
-                hoje =datetime.now().strftime("%d")
+                hoje =date.today().strftime("%d")
                 if data==hoje and cliente['saldo']>=valorParcela:
                     cliente['saldo'] -= valorParcela
             
