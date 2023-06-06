@@ -1,7 +1,51 @@
 [
     {
-        "numeroConta": "Deposito",
-        "conta": "Deposito",
-        "tipo": 100.0,
-        "valor": "1701",
-        "data": 
+        "numeroConta": "2501",
+        "conta": "2501",
+        "tipo": "Saque",
+        "valor": 1000.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "2501",
+        "conta": "2501",
+        "tipo": "Deposito",
+        "valor": 100.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "1701",
+        "conta": "1701",
+        "tipo": "Deposito",
+        "valor": 10000.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "1701",
+        "conta": "1701",
+        "tipo": "Saque",
+        "valor": 1000.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "1701",
+        "conta": "1701",
+        "tipo": "Deposito",
+        "valor": 100.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "2501",
+        "conta": "2501",
+        "tipo": "Deposito",
+        "valor": 12.0,
+        "data": "2023-06-06"
+    },
+    {
+        "numeroConta": "2501",
+        "conta": "2501",
+        "tipo": "Deposito",
+        "valor": 122.0,
+        "data": "2023-06-06"
+    }
+]
