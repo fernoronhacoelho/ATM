@@ -1,42 +1,47 @@
 [
     {
-        "nome": "Bel",
-        "cpf_cnpj": "124567892",
-        "endereco": "Lago",
-        "telefone": "(61)99999-9999",
-        "numeroConta": "1107",
-        "senha": "000000"
+        "nome": "Luisa",
+        "cpf_cnpj": "16817309824",
+        "endereco": "\"Gama\"",
+        "telefone": "(61)99992-2222",
+        "numeroConta": "2608",
+        "senha": "0129872",
+        "saldo": 0
     },
     {
         "nome": "Fernanda",
-        "cpf_cnpj": "09876543210",
-        "endereco": "Asa Norte",
-        "telefone": "(61)99999-8888",
+        "cpf_cnpj": "12345678901",
+        "endereco": "Lago Norte",
+        "telefone": "(61)90000-9000",
         "numeroConta": "2501",
-        "senha": "012345"
+        "senha": "170198",
+        "saldo": 300.0
     },
     {
         "nome": "Gabriel",
-        "cpf_cnpj": "91827364501",
-        "endereco": "Asa sul",
-        "telefone": "(61)98888-8888",
+        "cpf_cnpj": "102938475665",
+        "endereco": "Asa Sul",
+        "telefone": "(61)99999-9999",
         "numeroConta": "1701",
-        "senha": "250101"
+        "senha": "250101",
+        "saldo": 100.0
     },
     {
-        "nome": "Dilene",
-        "cpf_cnpj": "098765432109",
-        "endereco": "Nil\u00f3polis",
-        "telefone": "(21)99999-9999",
-        "numeroConta": "1112",
-        "senha": "240205"
+        "nome": "Bel",
+        "cpf_cnpj": "09876543212",
+        "endereco": "Lago Norte",
+        "telefone": "(61)98888-8888",
+        "numeroConta": "1107",
+        "senha": "110798",
+        "saldo": 0
     },
     {
-        "nome": "Rodrigo",
-        "cpf_cnpj": "111111111111",
-        "endereco": "Gama",
-        "telefone": "(61)97777-7777",
-        "numeroConta": "1807",
-        "senha": "131415"
+        "nome": "Bruno",
+        "cpf_cnpj": "011029928338",
+        "endereco": "Asa Norte",
+        "telefone": "(61)90000-0001",
+        "numeroConta": "1705",
+        "senha": "110789",
+        "saldo": 0
     }
 ]
