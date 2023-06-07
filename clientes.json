@@ -9,13 +9,13 @@
         "saldo": 0
     },
     {
-        "nome": "Fernanda",
+        "nome": "Fernanda Noronha",
         "cpf_cnpj": "12345678901",
         "endereco": "Lago Norte",
         "telefone": "(61)90000-9000",
         "numeroConta": "2501",
         "senha": "170198",
-        "saldo": 3329.0
+        "saldo": 128329.0
     },
     {
         "nome": "Gabriel",
@@ -33,7 +33,7 @@
         "telefone": "(61)98888-8888",
         "numeroConta": "1107",
         "senha": "110798",
-        "saldo": 0
+        "saldo": 2050.0
     },
     {
         "nome": "Bruno",
@@ -42,6 +42,15 @@
         "telefone": "(61)90000-0001",
         "numeroConta": "1705",
         "senha": "110789",
+        "saldo": 0
+    },
+    {
+        "nome": "Ricardo",
+        "cpf_cnpj": "23456789012",
+        "endereco": "Nilopolis",
+        "telefone": "(21)90100-0000",
+        "numeroConta": "2402",
+        "senha": "111276",
         "saldo": 0
     }
 ]
