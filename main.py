@@ -1,9 +1,7 @@
 # Código feito por: Fernanda Noronha
-# Versão 3.5  06/06/2023
-# Funcao do gerente atualizar o cadastro e apagar cliente
-# Organizar os métodos da gerente.
-#Verificar pq coloca conta duas vezes no json
-#Verificar funções de pagamento programado e crédito
+# Versão 4.0  07/06/2023
+# Precisa excluir o extrato do cliente que foi excluido também?
+#Verificar funções de pagamento programado e crédito - verificação das datas
 #Fazer as verificações de tudo! aaaaaaaaa
 #Fazer o UML
 
@@ -44,18 +42,68 @@ else:
 LoginSenha()
 senha = input('Digite a sua senha: \n')
 if senha == 'gerente':
-        
-        print('................................................................................')
-        nome = input('Insira o nome do cliente: \n')
-        telefone= input('Insira o telefone do cliente com o ddd no formato (xx) xxxxx-xxxx: \n')
-        cpf_cnpj = input('Insira o CPF ou CNPJ (Sem caracteres especiais): \n')
-        endereco = input('Insira o endereço do cliente: \n')
-        noConta = input('Insira o número da conta: \n')
-        senha = input('Insira sua senha de 6 dígitos: \n')
-        print('................................................................................')
+    print('Olá, gerente')
+    MenuGerente()
 
-        clientesController.registrarCliente(nome, cpf_cnpj,endereco,telefone,noConta, senha,0)
-        clienteLogado = {}
+    operacao = input('Escolha uma operacao: ')
+
+    while operacao != '8':
+
+        if operacao == '1':
+            print('Você escolheu cadastrar novo cliente.')
+            print('................................................................................')
+            nome = ClienteController.cadastrarUsuarioNome()
+            telefone= ClienteController.cadastrarUsuarioTelefone()
+            cpf_cnpj = ClienteController.cadastrarUsuarioCPF_CNPJ()
+            endereco = ClienteController.cadastrarUsuarioEndereco()
+            noConta = ClienteController.cadastrarUsuarioNoConta()
+            senha = ClienteController.cadastrarUsuarioSenha()
+            print('................................................................................')
+            clientesController.registrarCliente(nome, cpf_cnpj,endereco,telefone,noConta, senha,0)
+
+        elif operacao == '2':
+            print('Você escolheu atualizar nome do cliente.')
+            noConta=input('Qual é o número da conta do cliente que você gostaria de atualizar o nome?')
+            novoNome = input('Qual será o novo nome?')
+            clientesController.atualizarUsuarioNome(noConta, novoNome)
+            clientesController.updateJson()           
+        elif operacao == '3':
+            print('Você escolheu atualizar CPF/CNPJ do cliente.')
+            noConta=input('Qual o número da conta do cliente que você gostaria de atualizar CPF/CNPJ?')
+            novoCPF_CNPJ = input('Qual será o novo CPF/CNPJ?')
+            clientesController.atualizarUsuarioCPF_CNPJ(noConta, novoCPF_CNPJ)
+            clientesController.updateJson()  
+        elif operacao == '4':
+            print('Você escolheu atualizar endereço do cliente.')
+            noConta=input('Qual o número da conta do cliente que você gostaria de atualizar o endereço?')
+            novoEndereco = input('Qual será o novo endereço?')
+            clientesController.atualizarUsuarioEndereco(noConta, novoEndereco)
+            clientesController.updateJson()  
+        elif operacao == '5':
+            print('Você escolheu atualizar telefone do cliente.')
+            noConta=input('Qual o número da conta do cliente que você gostaria de atualizar o telefone?')
+            novoTelefone = input('Qual será o novo telefone?')
+            clientesController.atualizarUsuarioTelefone(noConta, novoTelefone)
+            clientesController.updateJson()
+        elif operacao =='6':
+            print('Você escolheu visualizar cliente')
+            noConta = input('Qual é o número da conta do usuário que deseja ser visualizado? ')
+            clientesController.visualizarUsuario(noConta)
+        elif operacao =='7':
+            print('Você escolheu excluir cliente')
+            noConta = input('Qual é o número da conta que você deseja excluir?')
+            clientesController.excluirUsuario(noConta)
+            clientesController.updateJson()
+
+        elif operacao == '8':
+            break
+        else:
+            print('Escolha uma opção válida')
+        MenuGerente()
+        operacao = input('Escolha uma operacao: ')
+
+    print('Sessão encerrada!')    
+    clienteLogado = {}
 else:
    
     for cliente in clientesList:
@@ -92,8 +140,8 @@ if clienteLogado != {}:
             valor = float(input('Qual valor você quer solicitar? \n'))
             parcelas=int(input('Quantas parcelas você vai querer?'))
             data=input('Qual dia do mes você vai querer realizar o pagamento das parcelas?')
-            clientesController.solicitarCredito(clienteLogado['numeroConta'],valor,parcelas,data)
-            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            clientesController.solicitarCredito(clienteLogado,valor,parcelas,data)
+            extratosController.registrarTransacao('Credito adquirido',valor,clienteLogado['numeroConta'],0)
             
         elif operacao == '4':
             print('Você escolheu a operação de pagamento programado')
@@ -107,11 +155,9 @@ if clienteLogado != {}:
             break
         else:
             print('Escolha uma opção válida')
-    
+        Menu()
         operacao = input('Escolha uma operacao: ')
 
-print('Sessão encerrada!')
+    print('Sessão encerrada!')
 
 
-#Arrumar todos os clientes
-#instanciar os dois módulos e torcer pra dar certo agora XD
