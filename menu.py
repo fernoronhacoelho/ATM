@@ -25,3 +25,16 @@ class Menu:
         print(': 6. Sair                       :')
         print('.................................') 
 
+class MenuGerente:
+    def __init__(self):
+        print('.....................................')
+        print(': Escolha uma operação:             :')
+        print(': 1. Cadastrar novo cliente         :')
+        print(': 2. Atualizar nome do cliente      :')
+        print(': 3. Atualizar CPF/CNPJ do cliente  :')
+        print(': 4. Atualizar endereco do cliente  :')
+        print(': 5. Atualizar telefone do cliente  :')
+        print(': 6. Visualizar cliente             :')
+        print(': 7.Excluir cliente                 :')
+        print(': 8. Sair                           :')
+        print('.....................................') 
