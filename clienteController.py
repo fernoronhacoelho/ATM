@@ -6,16 +6,22 @@ class ClienteController():
     def __init__(self, clienteList, clientesDir):
         self.clientesList = clienteList
         self.clientesDir = clientesDir
+        self.pagamentos=[]
     
     def updateJson(self):
         with open(self.clientesDir, 'w') as updateFile:
             json.dump(self.clientesList, updateFile, indent=4)
-    
+        
+
     def registrarCliente (self, nome, cpf_cnpj, endereco, telefone, numeroConta, senha, saldo):
         novoCliente = Cliente(nome, cpf_cnpj, endereco, telefone, numeroConta, senha, saldo)
         converteCliente = vars(novoCliente)
         self.clientesList.append(converteCliente)
         self.updateJson()
+
+        clienteTransacoes = open(f"database\\Transacoes\\extratos_{numeroConta}.json","x")
+        clienteTransacoes.write("[]")
+        clienteTransacoes.close()
     
 
     def cadastrarUsuarioNoConta(self):
@@ -32,7 +38,7 @@ class ClienteController():
         if len(noConta) !=4 and noexiste==True:
             print('Por favor escolha uma nova conta de 4 dígitos.\n')
             return False
-        elif len(noConta) ==4 and noexiste ==True:
+        elif len(noConta) ==4 and noexiste ==True: 
             return noConta
         
         
@@ -98,7 +104,7 @@ class ClienteController():
             return False
 
     def visualizarUsuario(self, noConta):
-        for cliente in self.clientesList:
+        for cliente in self.clientesList: 
             if cliente['numeroConta'] == noConta:
                 print(f'{cliente} \n')
     
@@ -128,23 +134,44 @@ class ClienteController():
                     cliente['saldo'] -=valor
                     self.updateJson()
                     
+    def verificarPagamento(self, clienteLogado):
+        for pagamento in self.pagamentos:
+            if clienteLogado['numeroConta'] == pagamento[0]:
+                hoje = str(date.today())
+                if pagamento[1] == hoje:
+                    if clienteLogado['saldo']>=pagamento[2]:
+                        clienteLogado['saldo'] -= pagamento[2]
+                        print('Pagamento foi realizado')
+                        self.pagamentos.remove({clienteLogado['numeroConta'],pagamento[1],pagamento[2]})
+                    elif pagamento[1]!=hoje:
+                        clienteLogado['saldo'] = clienteLogado['saldo']
+                        print(f'Pagamento de R${pagamento[2]} é para a data {pagamento[1]}. O pagamento ainda não foi efetuado.')
 
     def pagamentoProgramado(self,valor, clienteLogado):
         for cliente in self.clientesList:
             if cliente['numeroConta'] == clienteLogado['numeroConta']:
                 data = str(input('Qual é a data do pagamento programado? [AAAA-MM-DD]\n'))
                 hoje =str(date.today())
+                self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
                 if data==hoje and cliente['saldo']>=valor:
                     cliente['saldo'] -= valor
                     print('Pagamento foi realizado')
+                    self.pagamentos.remove({clienteLogado['numeroConta'],data,valor})
+                    return True
+                    break
                 elif data!=hoje:
                     cliente['saldo'] = cliente['saldo']
                     print(f'Pagamento de R${valor} é para a data {data}. O pagamento ainda não foi efetuado.')
-                    
+                    self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
+                    return False
+                    break
                 elif data==hoje and cliente['saldo']<valor:
-                    print("Operação não realiza! Saldo insuficiente.")  
+                    print("Operação não realiza! Saldo insuficiente.")
+                    return False
+                    break  
                 else:
                     print("O pagamento já foi efetuado")
+                    return False
     
     def solicitarCredito(self, clienteLogado,credito, parcela,data):
         for cliente in self.clientesList:
@@ -158,11 +185,13 @@ class ClienteController():
                     valorParcela = (taxa*credito)/parcela
                 clienteLogado['saldo']+=credito
                 hoje =date.today().strftime("%d")
-                print(hoje)
-                print(data)
-                if data==hoje and clienteLogado['saldo']>=valorParcela:
-                    clienteLogado['saldo'] -= valorParcela
-                elif data==hoje and clienteLogado['saldo']<valorParcela:
-                    print("Operação não realiza! Saldo insuficiente.")
-                else:
-                    pass
+
+                print(f'Você solicitou um crédito de {credito} que será parcelado em {parcela}x e o valor de cada parcela será de {valorParcela} que será cobrado no dia {data} dos próximos {parcela} meses.')
+                #if data==hoje and clienteLogado['saldo']>=valorParcela:
+                #    clienteLogado['saldo'] -= valorParcela
+
+                #elif data==hoje and clienteLogado['saldo']<valorParcela:
+                #    print("Operação não realiza! Saldo insuficiente.")
+
+                #else:
+                #    pass
