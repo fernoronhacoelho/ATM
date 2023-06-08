@@ -1,8 +1,8 @@
 # Código feito por: Fernanda Noronha
-# Versão 4.0  07/06/2023
-# Precisa excluir o extrato do cliente que foi excluido também?
+# Versão 4.1   08/06/2023
 #Verificar funções de pagamento programado e crédito - verificação das datas
-#Fazer as verificações de tudo! aaaaaaaaa
+#Fazer as verificações dos inputs de acordo com o padrão desejado! aaaaaaaaa
+#Fazer o extrato - exportar um documento json para cada número da conta cadastrado
 #Fazer o UML
 
 from Views.menu import *
@@ -20,16 +20,12 @@ if __name__ == "__main__":
 
         clientesController = ClienteController(clientesList, clientesDir)
 
-        for cliente in clientesList:
-            print(f'{cliente} \n')
         
         with open(extratosDir) as extratosFile:
             extratosList = json.load(extratosFile)
 
         extratosController = TransacaoController(extratosList, extratosDir)
 
-        for transacao in extratosList:
-            print(f'{cliente} \n')
 
 Login()
 noConta = input('Digite o número da sua conta: \n')
@@ -53,11 +49,21 @@ if senha == 'gerente':
             print('Você escolheu cadastrar novo cliente.')
             print('................................................................................')
             nome = ClienteController.cadastrarUsuarioNome()
+            while nome == False:
+                nome = ClienteController.cadastrarUsuarioNome()
             telefone= ClienteController.cadastrarUsuarioTelefone()
+            while telefone == False:
+                telefone= ClienteController.cadastrarUsuarioTelefone()
             cpf_cnpj = ClienteController.cadastrarUsuarioCPF_CNPJ()
+            while cpf_cnpj == False:
+                cpf_cnpj = ClienteController.cadastrarUsuarioCPF_CNPJ()
             endereco = ClienteController.cadastrarUsuarioEndereco()
-            noConta = ClienteController.cadastrarUsuarioNoConta()
+            noConta = clientesController.cadastrarUsuarioNoConta()
+            while noConta == False:
+               noConta = clientesController.cadastrarUsuarioNoConta() 
             senha = ClienteController.cadastrarUsuarioSenha()
+            while senha ==False:
+                senha = ClienteController.cadastrarUsuarioSenha()
             print('................................................................................')
             clientesController.registrarCliente(nome, cpf_cnpj,endereco,telefone,noConta, senha,0)
 
@@ -110,7 +116,7 @@ else:
         if cliente['senha'] == senha:
             print("Senha correta!")
         elif cliente['senha']!=senha:
-             clienteLogado={}
+            clienteLogado={}
     clienteLogado = clientesController.login(noConta, senha)
    
    
@@ -147,10 +153,10 @@ if clienteLogado != {}:
             print('Você escolheu a operação de pagamento programado')
             valor = float(input('Qual valor do seu pagamento programado? \n'))
             clientesController.pagamentoProgramado(valor,clienteLogado)
-            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            extratosController.registrarTransacao('Pagamento Programado',valor,clienteLogado['numeroConta'],0)
         elif operacao == '5':
             print('Você vai emitir extrato')
-
+            extratosController.mostrarExtrato(clienteLogado['numeroConta'])
         elif operacao == '6':
             break
         else:
@@ -161,3 +167,4 @@ if clienteLogado != {}:
     print('Sessão encerrada!')
 
 
+# Precisa excluir o extrato do cliente que foi excluido também?
