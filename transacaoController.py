@@ -15,3 +15,7 @@ class TransacaoController():
         converteTransacao = vars(novaTransacao)
         self.extratosList.append(converteTransacao)
         self.updateJson()
+    def mostrarExtrato(self,noConta):
+        for transacao in self.extratosList:
+            if transacao['numeroConta'] == noConta:
+                print(f'{transacao}\n')
