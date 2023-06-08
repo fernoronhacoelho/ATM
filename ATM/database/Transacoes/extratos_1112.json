@@ -1,0 +1,14 @@
+[
+    {
+        "numeroConta": "1112",
+        "tipo": "Deposito",
+        "valor": 15000.0,
+        "data": "2023-06-08"
+    },
+    {
+        "numeroConta": "1112",
+        "tipo": "Saque",
+        "valor": 50.0,
+        "data": "2023-06-08"
+    }
+]
