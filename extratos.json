@@ -102,5 +102,77 @@
         "tipo": "Deposito",
         "valor": 25000.0,
         "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Deposito",
+        "valor": 100.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Deposito",
+        "valor": 100.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Deposito",
+        "valor": 100.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Deposito",
+        "valor": 200.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Deposito",
+        "valor": 3.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Deposito",
+        "valor": 23.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Deposito",
+        "valor": 23.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Deposito",
+        "valor": 10.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Credito adquirido",
+        "valor": 10.0,
+        "data": "2023-06-07"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Deposito",
+        "valor": 30000.0,
+        "data": "2023-06-08"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Pagamento Programado",
+        "valor": 5.0,
+        "data": "2023-06-08"
+    },
+    {
+        "numeroConta": "1701",
+        "tipo": "Pagamento Programado",
+        "valor": 100.0,
+        "data": "2023-06-08"
     }
 ]
