@@ -1,92 +1,38 @@
 [
     {
-        "nome": "Luisa",
-        "cpf_cnpj": "16817309824",
-        "endereco": "\"Gama\"",
-        "telefone": "(61)99992-2222",
-        "numeroConta": "2608",
-        "senha": "0129872",
-        "saldo": 0
-    },
-    {
         "nome": "Fernanda Noronha",
-        "cpf_cnpj": "12345678901",
+        "cpf_cnpj": "11122233344",
         "endereco": "Lago Norte",
-        "telefone": "(61)90000-9000",
+        "telefone": "(61)99999-9999",
         "numeroConta": "2501",
         "senha": "170198",
-        "saldo": 128329.0
+        "saldo": 1100100.0
     },
     {
         "nome": "Gabriel",
-        "cpf_cnpj": "102938475665",
-        "endereco": "Lago sul",
-        "telefone": "(61)99999-9999",
+        "cpf_cnpj": "00011122233",
+        "endereco": "Asa sul",
+        "telefone": "(61)98888-8888",
         "numeroConta": "1701",
         "senha": "250101",
-        "saldo": 40100.0
+        "saldo": 2000.0
     },
     {
-        "nome": "Bel",
-        "cpf_cnpj": "09876543212",
-        "endereco": "Lago Norte",
-        "telefone": "(61)98888-8888",
-        "numeroConta": "1107",
-        "senha": "110798",
-        "saldo": 2050.0
-    },
-    {
-        "nome": "Bruno",
-        "cpf_cnpj": "011029928338",
-        "endereco": "Asa Norte",
-        "telefone": "(61)90000-0001",
-        "numeroConta": "1705",
-        "senha": "110789",
+        "nome": "Dilene",
+        "cpf_cnpj": "00112233445",
+        "endereco": "Rio de Janeiro",
+        "telefone": "(21)98333-3333",
+        "numeroConta": "1112",
+        "senha": "240205",
         "saldo": 0
     },
     {
         "nome": "Ricardo",
-        "cpf_cnpj": "23456789012",
+        "cpf_cnpj": "01010202030",
         "endereco": "Nilopolis",
-        "telefone": "(21)90100-0000",
+        "telefone": "(21)97777-7777",
         "numeroConta": "2402",
         "senha": "111276",
-        "saldo": 0
-    },
-    {
-        "nome": "Ana",
-        "cpf_cnpj": "12378940433",
-        "endereco": "Luziania",
-        "telefone": "(61)78924-2938",
-        "numeroConta": "2207",
-        "senha": "123456",
-        "saldo": 0
-    },
-    {
-        "nome": "Sofia",
-        "cpf_cnpj": "00099988877",
-        "endereco": "Aguas Claras",
-        "telefone": "(61)987651234",
-        "numeroConta": "0127",
-        "senha": "123456",
-        "saldo": 0
-    },
-    {
-        "nome": "Anderson",
-        "cpf_cnpj": "00011199922",
-        "endereco": "Nilopolis",
-        "telefone": "(21)92525-2525",
-        "numeroConta": "3112",
-        "senha": "102456",
-        "saldo": 0
-    },
-    {
-        "nome": "Lua",
-        "cpf_cnpj": "12345678908",
-        "endereco": "Sorocaba",
-        "telefone": "(11)91111-1111",
-        "numeroConta": "0423",
-        "senha": "123456",
         "saldo": 0
     }
 ]
