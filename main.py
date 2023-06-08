@@ -121,6 +121,7 @@ else:
    
    
 if clienteLogado != {}:
+    clientesController.verificarPagamento(clienteLogado)
     print('Olá,')
     print(clienteLogado['nome'])
     Menu()
@@ -152,8 +153,11 @@ if clienteLogado != {}:
         elif operacao == '4':
             print('Você escolheu a operação de pagamento programado')
             valor = float(input('Qual valor do seu pagamento programado? \n'))
-            clientesController.pagamentoProgramado(valor,clienteLogado)
-            extratosController.registrarTransacao('Pagamento Programado',valor,clienteLogado['numeroConta'],0)
+            pagamento = clientesController.pagamentoProgramado(valor,clienteLogado)
+            if pagamento == True:
+                extratosController.registrarTransacao('Pagamento Programado',valor,clienteLogado['numeroConta'],0)
+            elif pagamento == False:
+                pass
         elif operacao == '5':
             print('Você vai emitir extrato')
             extratosController.mostrarExtrato(clienteLogado['numeroConta'])
