@@ -123,22 +123,28 @@ class ClienteController():
                 return cliente
     
     def deposito(self, valor, clienteLogado):
-        for cliente in self.clientesList:
-            if cliente['numeroConta'] == clienteLogado['numeroConta']:
-                cliente['saldo'] +=valor
-                print(f"O depósito de R${valor} foi realizado com sucesso!")
-                self.updateJson()
+        if type(valor) == int or type(valor) == float:
+            for cliente in self.clientesList:
+                if cliente['numeroConta'] == clienteLogado['numeroConta']:
+                    cliente['saldo'] +=valor
+                    print(f"O depósito de R${valor} foi realizado com sucesso!")
+                    self.updateJson()
+        else:
+            print("Escolha um valor válido.")
     
     def saque(self, valor, clienteLogado):
-        for cliente in self.clientesList:
-            if cliente['numeroConta'] == clienteLogado['numeroConta']:
-                if cliente['saldo']>= valor:
-                    cliente['saldo'] -=valor
-                    print(f"O saque de R${valor} foi realizado com sucesso!")
-                    self.updateJson()
-                else:
-                    print(f"Você não possui saldo suficiente para sacar R${valor}.")
-                    
+        if type(valor) == int or type(valor) == float:
+            for cliente in self.clientesList:
+                if cliente['numeroConta'] == clienteLogado['numeroConta']:
+                    if cliente['saldo']>= valor:
+                        cliente['saldo'] -=valor
+                        print(f"O saque de R${valor} foi realizado com sucesso!")
+                        self.updateJson()
+                    else:
+                        print(f"Você não possui saldo suficiente para sacar R${valor}.")
+        else:
+            print("Escolha um valor válido.")
+
     def verificarPagamento(self, clienteLogado):
         for pagamento in self.pagamentos:
             if clienteLogado['numeroConta'] == pagamento[0]:
@@ -154,33 +160,37 @@ class ClienteController():
                         clienteLogado['saldo'] = clienteLogado['saldo']
                         print(f'Pagamento de R${pagamento[2]} é para a data {pagamento[1]}. O pagamento ainda não foi efetuado.')
                         return False
+        print("A lista de pagamento programado está verificada")
 
     def pagamentoProgramado(self,valor, clienteLogado):
-        for cliente in self.clientesList:
-            if cliente['numeroConta'] == clienteLogado['numeroConta']:
-                data = str(input('Qual é a data do pagamento programado? [AAAA-MM-DD]\n'))
-                hoje =str(date.today())
-                self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
-                if data==hoje and cliente['saldo']>=valor:
-                    cliente['saldo'] -= valor
-                    self.updateJson()
-                    print('Pagamento foi realizado')
-                    self.pagamentos.remove({clienteLogado['numeroConta'],data,valor})
-                    return {True, valor}
-                    break
-                elif data!=hoje:
-                    cliente['saldo'] = cliente['saldo']
-                    print(f'Pagamento de R${valor} é para a data {data}. O pagamento ainda não foi efetuado.')
+        if type(valor) == int or type(valor) ==float:
+            for cliente in self.clientesList:
+                if cliente['numeroConta'] == clienteLogado['numeroConta']:
+                    data = str(input('Qual é a data do pagamento programado? [AAAA-MM-DD]\n'))
+                    hoje =str(date.today())
                     self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
-                    return False
-                    break
-                elif data==hoje and cliente['saldo']<valor:
-                    print("Operação não realiza! Saldo insuficiente.")
-                    return False
-                    break  
-                else:
-                    print("O pagamento já foi efetuado")
-                    return False
+                    if data==hoje and cliente['saldo']>=valor:
+                        cliente['saldo'] -= valor
+                        self.updateJson()
+                        print('Pagamento foi realizado')
+                        self.pagamentos.remove({clienteLogado['numeroConta'],data,valor})
+                        return {True, valor}
+                        break
+                    elif data!=hoje:
+                        cliente['saldo'] = cliente['saldo']
+                        print(f'Pagamento de R${valor} é para a data {data}. O pagamento ainda não foi efetuado.')
+                        self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
+                        return False
+                        break
+                    elif data==hoje and cliente['saldo']<valor:
+                        print("Operação não realiza! Saldo insuficiente.")
+                        return False
+                        break  
+                    else:
+                        print("O pagamento já foi efetuado")
+                        return False
+        else:
+            print("Escolha um valor válido.")
     
     def solicitarCredito(self, clienteLogado,credito, parcela,data):
         for cliente in self.clientesList:
@@ -196,7 +206,7 @@ class ClienteController():
                 clienteLogado['saldo']+=credito
 
                 print(f'Você solicitou um crédito de {credito} que será parcelado em {parcela}x e o valor de cada parcela será de {valorParcela} que será cobrado no dia {data} dos próximos {parcela} meses.')
-                
+                    
                 hoje =date.today().strftime("%d")
                 mes = int(date.today().strftime("%m"))
                 ano = date.today().strftime("%a")
@@ -213,8 +223,8 @@ class ClienteController():
                             dataPagamento =f"{ano}-0{mes}-{data}"
                         else:
                             dataPagamento = f"{ano}-{mes}-{data}"
-                    numeroDaParcela = i+1
-                    self.creditosParcelas.append({clienteLogado["numeroConta"], numeroDaParcela, valorParcela, dataPagamento })
+                        numeroDaParcela = i+1
+                        self.creditosParcelas.append({clienteLogado["numeroConta"], numeroDaParcela, valorParcela, dataPagamento })
                 if data==hoje and clienteLogado['saldo']>=valorParcela:
                     clienteLogado['saldo'] -= valorParcela
                     self.updateJson()
@@ -224,8 +234,8 @@ class ClienteController():
                     return False
                 else:
                     return False
-
     def verificarPagamentoCredito(self, clienteLogado):
+        
         for credito in self.creditosParcelas:
             if clienteLogado['numeroConta'] == credito[0]:
                 hoje = str(date.today())
@@ -240,3 +250,4 @@ class ClienteController():
                         clienteLogado['saldo'] = clienteLogado['saldo']
                         print(f'Pagamento da parcela {credito[1]} de R${credito[2]} é para a data {credito[3]}. O pagamento ainda não foi efetuado.')
                         return False
+        print("A lista de pagamento dos créditos está verificada\n")

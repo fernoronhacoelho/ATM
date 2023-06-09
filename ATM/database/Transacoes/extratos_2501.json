@@ -34,5 +34,29 @@
         "tipo": "Saque",
         "valor": 10000.0,
         "data": "2023-06-08"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Credito adquirido",
+        "valor": 1000.0,
+        "data": "2023-06-09"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Credito adquirido",
+        "valor": 1000.0,
+        "data": "2023-06-09"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Credito adquirido",
+        "valor": 100.0,
+        "data": "2023-06-09"
+    },
+    {
+        "numeroConta": "2501",
+        "tipo": "Credito adquirido",
+        "valor": 1500.0,
+        "data": "2023-06-09"
     }
 ]

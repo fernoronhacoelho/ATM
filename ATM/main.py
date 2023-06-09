@@ -31,6 +31,8 @@ else:
     for cliente in clientesList:
         if cliente['numeroConta'] == noConta:
             print('Cliente cadastrado\n')
+        else:
+            clienteLogado={}
 LoginSenha()
 senha = input('Digite a sua senha: \n')
 if senha == 'gerente':
@@ -118,7 +120,7 @@ else:
     
    
 if clienteLogado =={}:
-    print("Senha incorreta, por favor, rode o programa novamente para acessar sua conta.")
+    print("Usuário/senha incorretos. Por favor, rode o programa novamente para acessar sua conta.")
 elif clienteLogado != {}:
     PagamentoRealizado = clientesController.verificarPagamento(clienteLogado)
     ParcelaCreditoPaga = clientesController.verificarPagamentoCredito(clienteLogado)
