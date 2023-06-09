@@ -126,6 +126,7 @@ class ClienteController():
         for cliente in self.clientesList:
             if cliente['numeroConta'] == clienteLogado['numeroConta']:
                 cliente['saldo'] +=valor
+                print(f"O depósito de R${valor} foi realizado com sucesso!")
                 self.updateJson()
     
     def saque(self, valor, clienteLogado):
@@ -133,7 +134,10 @@ class ClienteController():
             if cliente['numeroConta'] == clienteLogado['numeroConta']:
                 if cliente['saldo']>= valor:
                     cliente['saldo'] -=valor
+                    print(f"O saque de R${valor} foi realizado com sucesso!")
                     self.updateJson()
+                else:
+                    print(f"Você não possui saldo suficiente para sacar R${valor}.")
                     
     def verificarPagamento(self, clienteLogado):
         for pagamento in self.pagamentos:

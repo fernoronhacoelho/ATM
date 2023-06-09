@@ -26,6 +26,10 @@ class TransacaoController():
     def mostrarExtrato(self,noConta):
         with open(f"database\\Transacoes\\extratos_{noConta}.json") as transactionsFile:
             transacoes = json.load(transactionsFile)
-            for transacao in transacoes:
-                if transacao['numeroConta'] == noConta:
-                    print(f'{transacao}\n')
+            if transacoes == []:
+                print("Você não possui nenhum registro de transação")
+            else:
+                for transacao in transacoes:
+                    if transacao['numeroConta'] == noConta:
+                        print(f'{transacao}\n')
+                        

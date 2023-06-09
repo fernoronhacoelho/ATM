@@ -1,9 +1,5 @@
 # Código feito por: Fernanda Noronha
-# Versão 4.1   08/06/2023
-#Verificar funções de pagamento programado e crédito - verificação das datas
-#Fazer as verificações dos inputs de acordo com o padrão desejado! aaaaaaaaa
-#Fazer o extrato - exportar um documento json para cada número da conta cadastrado
-#Fazer o UML
+# Versão 5.0   08/06/2023
 
 from Views.menu import *
 from Controllers.transacaoController import TransacaoController
@@ -113,14 +109,17 @@ if senha == 'gerente':
 else:
    
     for cliente in clientesList:
-        if cliente['senha'] == senha:
+        if cliente['numeroConta'] ==noConta and cliente['senha'] == senha:
             print("Senha correta!")
-        elif cliente['senha']!=senha:
+            clienteLogado = clientesController.login(noConta, senha)
+            break
+        elif cliente['numeroConta'] == noConta and cliente['senha']!=senha:
             clienteLogado={}
-    clienteLogado = clientesController.login(noConta, senha)
+    
    
-   
-if clienteLogado != {}:
+if clienteLogado =={}:
+    print("Senha incorreta, por favor, rode o programa novamente para acessar sua conta.")
+elif clienteLogado != {}:
     PagamentoRealizado = clientesController.verificarPagamento(clienteLogado)
     ParcelaCreditoPaga = clientesController.verificarPagamentoCredito(clienteLogado)
     print('Olá,')
@@ -179,5 +178,3 @@ if clienteLogado != {}:
 
     print('Sessão encerrada!')
 
-
-# Precisa excluir o extrato do cliente que foi excluido também?
