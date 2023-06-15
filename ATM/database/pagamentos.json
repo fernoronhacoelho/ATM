@@ -1,17 +1,12 @@
 [
     {
-        "numeroConta": 100.0,
-        "valor": "2501",
+        "numeroConta": "2501",
+        "valor": 1000.0,
         "data": "2023-06-16"
     },
     {
-        "numeroConta": 100.0,
-        "valor": "2501",
-        "data": "2023-06-15"
-    },
-    {
-        "numeroConta": 100.0,
-        "valor": "2501",
-        "data": "2023-07-17"
+        "numeroConta": "2402",
+        "valor": 100.0,
+        "data": "2023-06-16"
     }
 ]

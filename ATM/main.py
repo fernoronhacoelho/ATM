@@ -1,6 +1,5 @@
 # Código feito por: Fernanda Noronha
-# Versão 5.0   14/06/2023
-#verificar 
+# Versão 6.0   15/06/2023
 
 from Views.menu import *
 from Controllers.transacaoController import TransacaoController
@@ -135,15 +134,21 @@ if clienteLogado =={}:
 elif clienteLogado != {}:
     PagamentoRealizado = verificacaoController.verificarPagamento(clienteLogado)
     ParcelaCreditoPaga = verificacaoController.verificarPagamentoCredito(clienteLogado)
-    verificacaoController.mostrarCredito(clienteLogado['numeroConta'])
-    verificacaoController.mostrarPagamento(clienteLogado['numeroConta'])
+    
     print('Olá,')
     print(clienteLogado['nome'])
-    if PagamentoRealizado == dict:
-        extratosController.registrarTransacao('Pagamento Programado',PagamentoRealizado[1],clienteLogado['numeroConta'],0)
-    if ParcelaCreditoPaga == dict:
-        extratosController.registrarTransacao('Parcela do crédito',ParcelaCreditoPaga[1],clienteLogado['numeroConta'],0)
+    if PagamentoRealizado != False:
+        extratosController.registrarTransacao('Pagamento Programado',str(PagamentoRealizado),clienteLogado['numeroConta'],0)
+        clientesController.updateJson()
+        verificacaoController.excluirPagamento(clienteLogado['numeroConta'])
+        verificacaoController.updateJsonPagamento()
+    if ParcelaCreditoPaga != False:
+        extratosController.registrarTransacao('Parcela do Credito',str(ParcelaCreditoPaga),clienteLogado['numeroConta'],0)
+        clientesController.updateJson()
+        verificacaoController.excluirCredito(clienteLogado['numeroConta'])
+        verificacaoController.updateJsonCreditos()
 
+        
     Menu()
 
     operacao = input('Escolha uma operacao: ')
@@ -179,10 +184,11 @@ elif clienteLogado != {}:
             verificacao = str.isnumeric(valor)
             verificacaoParcela = str.isnumeric(parcelas)
             verificacaoDia = str.isnumeric(data)
-            if verificacao == True and verificacaoParcela == True:
-                while len(data) !=2 and int(data)>31:
+            if verificacao == True and verificacaoParcela == True and verificacaoDia ==True:
+                while len(data) !=2 or int(data)>31:
                     print('Digite a data com dois algorismos significativos, caso tenha só uma unidade, coloque o zero na frente.\n')
                     data=str(input('Qual dia do mês você vai querer realizar o pagamento das parcelas? [dd]'))
+               
                 clientesController.solicitarCredito(clienteLogado,float(valor),int(parcelas),data)
                 extratosController.registrarTransacao('Credito adquirido',valor,clienteLogado['numeroConta'],0)
             elif verificacao == False or verificacaoParcela == False:

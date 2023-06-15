@@ -27,11 +27,6 @@ class VerificaoController():
         converteCredito = vars(novoCredito)
         self.creditosList.append(converteCredito)
         self.updateJsonCreditos()
-
-    def visualizarUsuario(self, noConta):
-        for cliente in self.clientesList: 
-            if cliente['numeroConta'] == noConta:
-                print(f'{cliente} \n')
     
     def excluirPagamento(self, noConta):
         hoje = str(date.today())
@@ -57,33 +52,38 @@ class VerificaoController():
 
     def verificarPagamentoCredito(self, clienteLogado):
         for credito in self.creditosList:
-            print(credito)
             if clienteLogado['numeroConta'] == credito['numeroConta']:
                 hoje = str(date.today())
+                verificar=False
                 if credito['data'] == hoje:
                     if clienteLogado['saldo']>=credito['valor']:
                         clienteLogado['saldo'] -= credito['valor']
                         print('Pagamento foi realizado')
                         self.excluirCredito(clienteLogado['numeroConta'])
-                        return {True, credito[2]}
+                        verificar = credito['valor']
+                        break
                 elif credito['data']!=hoje:
                     clienteLogado['saldo'] = clienteLogado['saldo']
                     print(f"Pagamento da parcela {credito['numeroParcela']} de R${credito['valor']} é para a data {credito['data']}. O pagamento ainda não foi efetuado.")
-                    return False
+                    verificar = False
         print("A lista de pagamento dos créditos está verificada\n")
+        return verificar
     def verificarPagamento(self, clienteLogado):
         for pagamento in self.pagamentosList:
             if clienteLogado['numeroConta'] == pagamento['numeroConta']:
                 hoje = str(date.today())
+                verificar =False
                 if pagamento['data'] == hoje:
                     if clienteLogado['saldo']>=pagamento['valor']:
                         clienteLogado['saldo'] -= pagamento['valor']
                         print('Pagamento foi realizado')
                         self.excluirPagamento(clienteLogado['numeroConta'])
-                        return {True,pagamento['data']}
+                        verificar = pagamento['valor']
+                        break
                 elif pagamento['data']!=hoje:
                     clienteLogado['saldo'] = clienteLogado['saldo']
                     print(f"Pagamento de R${pagamento['valor']} é para a data {pagamento['data']}. O pagamento ainda não foi efetuado.\n")
-                    return False
-
+                    verificar = False
         print("A lista de pagamento programado está verificada")
+        return verificar
+        

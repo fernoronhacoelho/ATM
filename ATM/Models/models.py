@@ -35,7 +35,7 @@ class Transacao(Conta):
         self.data = data
 
 class Pagamento(Conta):
-    def __init__(self, valor, noConta, data):
+    def __init__(self, noConta, valor, data):
         super().__init__(noConta)
         
         self.valor = valor

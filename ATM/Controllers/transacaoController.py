@@ -29,7 +29,9 @@ class TransacaoController():
             if transacoes == []:
                 print("Você não possui nenhum registro de transação")
             else:
+                print(f"Você está acessando o extrato da conta {noConta}\n")
+                print(" Tipo de transação              Valor                 Data")
                 for transacao in transacoes:
                     if transacao['numeroConta'] == noConta:
-                        print(f'{transacao}\n')
+                        print(f"{transacao['tipo']}   {transacao['valor']}    {transacao['data']}\n")
                         

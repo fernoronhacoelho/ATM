@@ -7,7 +7,7 @@ creditosDir = 'database\\creditos.json'
 pagamentosDir = 'database\\pagamentos.json'        
 
 with open(creditosDir) as creditosFile:
-    creditosList = json.load(creditosFile)
+        creditosList = json.load(creditosFile)
         
 with open(pagamentosDir) as pagamentosFile:
         pagamentosList = json.load(pagamentosFile)
@@ -146,7 +146,8 @@ class ClienteController():
     def visualizarUsuario(self, noConta):
         for cliente in self.clientesList: 
             if cliente['numeroConta'] == noConta:
-                print(f'{cliente} \n')
+                print(f"Número da Conta: {cliente['numeroConta']}\n Nome: {cliente['nome']}\n CPF/CNPJ: {cliente['cpf_cnpj']}\n Endereço: {cliente['endereco']}\n Telefone: {cliente['telefone']}\n")
+    
     
     def excluirUsuario(self, noConta):
         for cliente in self.clientesList:
@@ -277,7 +278,6 @@ class ClienteController():
                     elif mes>12:
                         ano+=1
                         mes=1
-                        #if mes<10:
                         dataPagamento =f"{ano}-0{mes}-{data}"
                         
                     numeroDaParcela = i+1
