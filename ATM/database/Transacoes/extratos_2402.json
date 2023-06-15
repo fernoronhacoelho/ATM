@@ -1,1 +1,20 @@
-[]
+[
+    {
+        "numeroConta": "2402",
+        "tipo": "Credito adquirido",
+        "valor": "10000",
+        "data": "2023-06-14"
+    },
+    {
+        "numeroConta": "2402",
+        "tipo": "Deposito",
+        "valor": "250000",
+        "data": "2023-06-14"
+    },
+    {
+        "numeroConta": "2402",
+        "tipo": "Credito adquirido",
+        "valor": "5000",
+        "data": "2023-06-14"
+    }
+]

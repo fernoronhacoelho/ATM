@@ -1,12 +1,12 @@
 [
     {
         "nome": "Fernanda Noronha",
-        "cpf_cnpj": "11122233344",
-        "endereco": "Lago Norte",
+        "cpf_cnpj": "12312312344",
+        "endereco": "Asa Norte",
         "telefone": "(61)99999-9999",
         "numeroConta": "2501",
         "senha": "170198",
-        "saldo": 1090100.0
+        "saldo": 1093545.0
     },
     {
         "nome": "Gabriel",
@@ -15,7 +15,7 @@
         "telefone": "(61)98888-8888",
         "numeroConta": "1701",
         "senha": "250101",
-        "saldo": 2000.0
+        "saldo": 1e+41
     },
     {
         "nome": "Dilene",
@@ -33,6 +33,6 @@
         "telefone": "(21)97777-7777",
         "numeroConta": "2402",
         "senha": "111276",
-        "saldo": 0
+        "saldo": 250000.0
     }
 ]

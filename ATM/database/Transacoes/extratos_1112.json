@@ -10,5 +10,17 @@
         "tipo": "Saque",
         "valor": 50.0,
         "data": "2023-06-08"
+    },
+    {
+        "numeroConta": "1112",
+        "tipo": "Credito adquirido",
+        "valor": "1000",
+        "data": "2023-06-14"
+    },
+    {
+        "numeroConta": "1112",
+        "tipo": "Credito adquirido",
+        "valor": "1000",
+        "data": "2023-06-14"
     }
 ]

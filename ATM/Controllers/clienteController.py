@@ -1,13 +1,25 @@
 import json
-from Models.models import Cliente
+from Models.models import Cliente, Pagamento, Credito
 from datetime import date, timedelta
+from Controllers.verificacaoController import *
+
+creditosDir = 'database\\creditos.json'
+pagamentosDir = 'database\\pagamentos.json'        
+
+with open(creditosDir) as creditosFile:
+    creditosList = json.load(creditosFile)
+        
+with open(pagamentosDir) as pagamentosFile:
+        pagamentosList = json.load(pagamentosFile)
+
+verificacaoController = VerificaoController(pagamentosList, pagamentosDir, creditosList, creditosDir)
 
 class ClienteController():
     def __init__(self, clienteList, clientesDir):
         self.clientesList = clienteList
         self.clientesDir = clientesDir
-        self.pagamentos=[]
-        self.creditosParcelas=[]
+        self.pagamentos= []
+        self.creditos= []
     
     def updateJson(self):
         with open(self.clientesDir, 'w') as updateFile:
@@ -23,7 +35,18 @@ class ClienteController():
         clienteTransacoes = open(f"database\\Transacoes\\extratos_{numeroConta}.json","x")
         clienteTransacoes.write("[]")
         clienteTransacoes.close()
-    
+
+    def registrarPagamento(self, novoPagamento):    
+        pagamento = novoPagamento
+        self.pagamentos.append(pagamento)
+        with open(self.pagamentosDir, 'w') as updateFile:
+            json.dump(self.pagamentos, updateFile, indent=4)
+    def registrarCredito(self, novoCredito):
+        credito = novoCredito
+        self.creditos.append(novoCredito)
+        with open(self.creditosDir, 'w') as updateFile:
+            json.dump(self.creditos, updateFile, indent=4)
+        
 
     def cadastrarUsuarioNoConta(self):
         noConta = str(input('Insira o número da conta: \n'))
@@ -61,10 +84,10 @@ class ClienteController():
             print('Digite um telefone válido, lembre-se do formato solicitado!\n')
             return False
     
-    def atualizarUsuarioTelefone(self,telefone, novoTelefone):
+    def atualizarUsuarioTelefone(self,noConta, novoTelefone):
         for cliente in self.clientesList:
-            if cliente['telefone'] == telefone:
-                if len(telefone) == 13 or len(telefone) ==14:
+            if cliente['numeroConta'] == noConta:
+                if len(novoTelefone) == 13 or len(novoTelefone) ==14:
                     cliente['telefone'] = novoTelefone
         else:
             print('Digite um telefone válido, lembre-se do formato solicitado!\n')
@@ -72,17 +95,32 @@ class ClienteController():
                 
     def cadastrarUsuarioCPF_CNPJ():  
         cpf_cnpj = input('Insira o CPF ou CNPJ (Sem caracteres especiais): \n')
-        if len(cpf_cnpj) == 11 or len(cpf_cnpj) == 14:
-            return cpf_cnpj
+        verificarcpf = str.isnumeric(cpf_cnpj)
+        if verificarcpf == True:
+            if len(cpf_cnpj) == 11 or len(cpf_cnpj) == 14:
+                return cpf_cnpj
+            else:
+                print('Digite um CPF/CNPJ válido, lembre-se do formato solicitado!\n')
+                return False
         else:
-            print('Digite um CPF/CNPJ válido, lembre-se do formato solicitado!\n')
-            return False
-    
-    def atualizarUsuarioCPF_CNPJ(self,cpf_cnpj, novoCPF_CNPJ):
+             while verificarcpf == False:
+                print("CPF/CNPJ em formato inválido.")
+                cpf_cnpj = input('Insira o CPF ou CNPJ (Sem caracteres especiais): \n')
+                verificarcpf = str.isnumeric(cpf_cnpj) 
+                if verificarcpf == True:
+                    return cpf_cnpj
+                    break
+                else:
+                    return False  
+    def atualizarUsuarioCPF_CNPJ(self,noConta, novoCPF_CNPJ):
         for cliente in self.clientesList:
-            if cliente['cpf_cnpj'] == cpf_cnpj:
-                if len(cpf_cnpj) == 11 or len(cpf_cnpj) == 14:
-                    cliente['cpf_cnpj'] = novoCPF_CNPJ
+            if cliente['numeroConta'] == noConta:
+                if len(novoCPF_CNPJ) == 11 or len(novoCPF_CNPJ) == 14:
+                    verificarCPF_CNPJ = str.isnumeric(novoCPF_CNPJ)
+                    if verificarCPF_CNPJ == True:
+                        cliente['cpf_cnpj'] = novoCPF_CNPJ
+                    else:
+                            print("CPF/CNPJ em formato inválido. Escolha a operação novamente e digite um valor numérico.")
                 else:
                     print('Digite um CPF/CNPJ válido, lembre-se do formato solicitado!\n')
                     return False
@@ -98,10 +136,11 @@ class ClienteController():
    
     def cadastrarUsuarioSenha():  
         senha = str(input('Insira sua senha de 6 dígitos: \n'))
-        if len(senha) == 6:
+        verificarSenha = str.isnumeric(senha)
+        if len(senha) == 6 and verificarSenha == True:
             return senha
         else:
-            print('A senha está incorreta. Ela deve conter 6 dígitos.\n')
+            print('A senha está incorreta. Ela deve conter 6 dígitos e ser numérica.\n')
             return False
 
     def visualizarUsuario(self, noConta):
@@ -142,53 +181,68 @@ class ClienteController():
                         self.updateJson()
                     else:
                         print(f"Você não possui saldo suficiente para sacar R${valor}.")
-        else:
+        elif type(valor) == str:
             print("Escolha um valor válido.")
 
-    def verificarPagamento(self, clienteLogado):
-        for pagamento in self.pagamentos:
-            if clienteLogado['numeroConta'] == pagamento[0]:
-                hoje = str(date.today())
-                if pagamento[1] == hoje:
-                    if clienteLogado['saldo']>=pagamento[2]:
-                        clienteLogado['saldo'] -= pagamento[2]
-                        self.updateJson()
-                        print('Pagamento foi realizado')
-                        self.pagamentos.remove({clienteLogado['numeroConta'],pagamento[1],pagamento[2]})
-                        return {True,pagamento[2]}
-                    elif pagamento[1]!=hoje:
-                        clienteLogado['saldo'] = clienteLogado['saldo']
-                        print(f'Pagamento de R${pagamento[2]} é para a data {pagamento[1]}. O pagamento ainda não foi efetuado.')
-                        return False
-        print("A lista de pagamento programado está verificada")
 
     def pagamentoProgramado(self,valor, clienteLogado):
         if type(valor) == int or type(valor) ==float:
             for cliente in self.clientesList:
                 if cliente['numeroConta'] == clienteLogado['numeroConta']:
-                    data = str(input('Qual é a data do pagamento programado? [AAAA-MM-DD]\n'))
-                    hoje =str(date.today())
-                    self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
-                    if data==hoje and cliente['saldo']>=valor:
-                        cliente['saldo'] -= valor
-                        self.updateJson()
-                        print('Pagamento foi realizado')
-                        self.pagamentos.remove({clienteLogado['numeroConta'],data,valor})
-                        return {True, valor}
-                        break
-                    elif data!=hoje:
-                        cliente['saldo'] = cliente['saldo']
-                        print(f'Pagamento de R${valor} é para a data {data}. O pagamento ainda não foi efetuado.')
-                        self.pagamentos.append({clienteLogado['numeroConta'],data,valor})
-                        return False
-                        break
-                    elif data==hoje and cliente['saldo']<valor:
-                        print("Operação não realiza! Saldo insuficiente.")
-                        return False
-                        break  
+                    
+                    dia = str(input('Qual é o dia do pagamento programado? [DD]\n'))
+                    mes = str(input('Qual é o mês do pagamento programado? [MM]\n'))
+                    ano = str(input('Qual é o ano do pagamento programado? [AAAA]\n'))
+                    diahoje =date.today().strftime("%d")
+                    meshoje = int(date.today().strftime("%m"))
+                    anohoje = date.today().strftime("%Y")
+                    verificarAno = str.isnumeric(ano)
+                    verificarMes = str.isnumeric(mes)
+                    verificarDia = str.isnumeric(dia)
+
+                    if int(dia) >31 and verificarDia == True:
+                        verificarDia = False
+                    
+                    elif int(dia) <= 31 and int(dia) >28 and int(mes) == 2:
+                        verificarDia =False
+                        print(f'Fevereiro não possui o dia {dia}')
+                    
+                    if int(mes) >= 12 and verificarMes == True:
+                        verificarMes = False
+                    
+                    if int(ano) < int(anohoje) and verificarAno ==True:
+                        verificarAno = False
+                    if int(ano) == int(anohoje) and int(mes)< int(meshoje) and verificarAno ==True:
+                        verificarAno = False
+                    if int(ano) == int(anohoje) and int(mes)== int(meshoje) and int(dia)< int(diahoje) and verificarAno ==True:
+                        verificarAno = False
+
+                    if verificarAno == True and verificarMes == True and verificarDia ==True:
+                        if len(ano) == 4 and len(mes) ==2 and len(dia)==2:
+                            data = ano+"-"+mes+"-"+dia
+                            hoje =str(date.today())
+                            novoPagamento = Pagamento(valor,clienteLogado['numeroConta'],data)
+                            if data==hoje and cliente['saldo']>=valor:
+                                cliente['saldo'] -= valor
+                                self.updateJson()
+                                print('Pagamento foi realizado')
+                                return True
+                                break
+                            elif data!=hoje:
+                                cliente['saldo'] = cliente['saldo']
+                                print(f'Pagamento de R${valor} é para a data {data}. O pagamento ainda não foi efetuado.')
+                                verificacaoController.registrarPagamento(clienteLogado['numeroConta'],valor,data)
+                                return False
+                                break
+                            elif data==hoje and cliente['saldo']<valor:
+                                print("Operação não realiza! Saldo insuficiente.")
+                                return False
+                                break  
+                            else:
+                                print("O pagamento já foi efetuado")
+                                return False
                     else:
-                        print("O pagamento já foi efetuado")
-                        return False
+                        print('Data incorreta. Tente novamente inserindo dias válidos')
         else:
             print("Escolha um valor válido.")
     
@@ -209,22 +263,25 @@ class ClienteController():
                     
                 hoje =date.today().strftime("%d")
                 mes = int(date.today().strftime("%m"))
-                ano = date.today().strftime("%a")
-                for i in range(parcela):
-                    mes=+1
+                ano = int(date.today().strftime("%Y"))
+                for i in range(0,parcela):
+                    mes+=1
+                    print(mes)
+            
                     if mes<10:
                         dataPagamento = f"{ano}-0{mes}-{data}"
-                    else:
+                        if mes == 2 and int(data)>28:
+                            dataPagamento = f"{ano}-03-01"
+                    elif mes>=10 and mes <=12:
                         dataPagamento = f"{ano}-{mes}-{data}"
-                    if mes>12:
-                        ano=+1
+                    elif mes>12:
+                        ano+=1
                         mes=1
-                        if mes<10:
-                            dataPagamento =f"{ano}-0{mes}-{data}"
-                        else:
-                            dataPagamento = f"{ano}-{mes}-{data}"
-                        numeroDaParcela = i+1
-                        self.creditosParcelas.append({clienteLogado["numeroConta"], numeroDaParcela, valorParcela, dataPagamento })
+                        #if mes<10:
+                        dataPagamento =f"{ano}-0{mes}-{data}"
+                        
+                    numeroDaParcela = i+1
+                    verificacaoController.registrarCredito(clienteLogado['numeroConta'], numeroDaParcela, valorParcela, dataPagamento)
                 if data==hoje and clienteLogado['saldo']>=valorParcela:
                     clienteLogado['saldo'] -= valorParcela
                     self.updateJson()
@@ -234,20 +291,3 @@ class ClienteController():
                     return False
                 else:
                     return False
-    def verificarPagamentoCredito(self, clienteLogado):
-        
-        for credito in self.creditosParcelas:
-            if clienteLogado['numeroConta'] == credito[0]:
-                hoje = str(date.today())
-                if credito[3] == hoje:
-                    if clienteLogado['saldo']>=credito[2]:
-                        clienteLogado['saldo'] -= credito[2]
-                        print('Pagamento foi realizado')
-                        self.updateJson()
-                        self.creditosParcelas.remove({clienteLogado['numeroConta'],credito[1],credito[2],credito[3]})
-                        return {True, credito[2]}
-                    elif credito[1]!=hoje:
-                        clienteLogado['saldo'] = clienteLogado['saldo']
-                        print(f'Pagamento da parcela {credito[1]} de R${credito[2]} é para a data {credito[3]}. O pagamento ainda não foi efetuado.')
-                        return False
-        print("A lista de pagamento dos créditos está verificada\n")

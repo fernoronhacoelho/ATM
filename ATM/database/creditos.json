@@ -1,0 +1,74 @@
+[
+    {
+        "numeroConta": "2501",
+        "valor": 1250.0,
+        "numeroParcela": 1,
+        "data": "2023-07-16"
+    },
+    {
+        "numeroConta": "2501",
+        "valor": 1250.0,
+        "numeroParcela": 2,
+        "data": "2023-08-16"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 1,
+        "data": "2023-07-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 2,
+        "data": "2023-08-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 3,
+        "data": "2023-09-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 4,
+        "data": "2023-10-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 5,
+        "data": "2023-11-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 6,
+        "data": "2023-12-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 7,
+        "data": "2024-01-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 8,
+        "data": "2024-03-01"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 9,
+        "data": "2024-03-29"
+    },
+    {
+        "numeroConta": "2402",
+        "valor": 500.48828125,
+        "numeroParcela": 10,
+        "data": "2024-04-29"
+    }
+]

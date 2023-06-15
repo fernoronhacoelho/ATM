@@ -1,25 +1,33 @@
 # Código feito por: Fernanda Noronha
-# Versão 5.0   08/06/2023
+# Versão 5.0   14/06/2023
+#verificar 
 
 from Views.menu import *
 from Controllers.transacaoController import TransacaoController
 from Controllers.clienteController import ClienteController
+from Controllers.verificacaoController import *
 import json
 
 if __name__ == "__main__":
         
         clientesDir = 'database\\clientes.json'
-        extratosDir = 'database\extratos.json'
+        extratosDir = 'database\\extratos.json'
+        creditosDir = 'database\\creditos.json'
+        pagamentosDir = 'database\\pagamentos.json'        
+
+        with open(creditosDir) as creditosFile:
+            creditosList = json.load(creditosFile)
+        
+        with open(pagamentosDir) as pagamentosFile:
+            pagamentosList = json.load(pagamentosFile)        
 
         with open(clientesDir) as clientesFile:
             clientesList = json.load(clientesFile)
 
-        clientesController = ClienteController(clientesList, clientesDir)
-
-        
         with open(extratosDir) as extratosFile:
             extratosList = json.load(extratosFile)
-
+        clientesController = ClienteController(clientesList, clientesDir)
+        verificacaoController = VerificaoController(pagamentosList, pagamentosDir, creditosList, creditosDir)
         extratosController = TransacaoController(extratosList, extratosDir)
 
 
@@ -35,7 +43,7 @@ else:
             clienteLogado={}
 LoginSenha()
 senha = input('Digite a sua senha: \n')
-if senha == 'gerente':
+if noConta == '0000' and senha == 'gerente':
     print('Olá, gerente')
     MenuGerente()
 
@@ -107,9 +115,12 @@ if senha == 'gerente':
         operacao = input('Escolha uma operacao: ')
 
     print('Sessão encerrada!')    
+    exit()
+
+elif noConta=='0000' and senha !='gerente':
+    print('Senha da gerência incorreta. Acesso negado!') 
     clienteLogado = {}
 else:
-   
     for cliente in clientesList:
         if cliente['numeroConta'] ==noConta and cliente['senha'] == senha:
             print("Senha correta!")
@@ -122,8 +133,10 @@ else:
 if clienteLogado =={}:
     print("Usuário/senha incorretos. Por favor, rode o programa novamente para acessar sua conta.")
 elif clienteLogado != {}:
-    PagamentoRealizado = clientesController.verificarPagamento(clienteLogado)
-    ParcelaCreditoPaga = clientesController.verificarPagamentoCredito(clienteLogado)
+    PagamentoRealizado = verificacaoController.verificarPagamento(clienteLogado)
+    ParcelaCreditoPaga = verificacaoController.verificarPagamentoCredito(clienteLogado)
+    verificacaoController.mostrarCredito(clienteLogado['numeroConta'])
+    verificacaoController.mostrarPagamento(clienteLogado['numeroConta'])
     print('Olá,')
     print(clienteLogado['nome'])
     if PagamentoRealizado == dict:
@@ -139,35 +152,55 @@ elif clienteLogado != {}:
 
         if operacao == '1':
             print('Você escolheu sacar dinheiro.')
-            valor = float(input('Qual valor você quer sacar? \n'))
-            clientesController.saque(valor,clienteLogado)
-            extratosController.registrarTransacao('Saque',valor,clienteLogado['numeroConta'],0)
+            valor = input('Qual valor você quer sacar? \n')
+            verificacao = str.isnumeric(valor)
+            if verificacao==True:
+                clientesController.saque(float(valor),clienteLogado)
+                extratosController.registrarTransacao('Saque',valor,clienteLogado['numeroConta'],0)
+            elif verificacao == False: 
+                print('Escolha um valor numérico e tente realizar a operação novamente.')
+                    
 
         elif operacao == '2':
             print('Você escolheu depositar dinheiro.')
-            valor = float(input('Qual valor você quer depositar? \n'))
-            clientesController.deposito(valor,clienteLogado)
-            extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            valor = input('Qual valor você quer depositar? \n')
+            verificacao = str.isnumeric(valor)
+            if verificacao==True:
+                clientesController.deposito(float(valor),clienteLogado)
+                extratosController.registrarTransacao('Deposito',valor,clienteLogado['numeroConta'],0)
+            elif verificacao == False: 
+                print('Escolha um valor numérico e tente realizar a operação novamente.')
             
         elif operacao == '3':
             print('Você escolheu a operação solicitar crédito')
-            valor = float(input('Qual valor você quer solicitar? \n'))
-            parcelas=int(input('Quantas parcelas você vai querer?'))
+            valor = input('Qual valor você quer solicitar? \n')
+            parcelas=input('Quantas parcelas você vai querer?')
             data=str(input('Qual dia do mês você vai querer realizar o pagamento das parcelas? [dd]'))
-            while len(data) !=2:
-                print('Digite a data com dois algorismos significativos, caso tenha só uma unidade, coloque o zero na frente.\n')
-                data=str(input('Qual dia do mês você vai querer realizar o pagamento das parcelas? [dd]'))
-            clientesController.solicitarCredito(clienteLogado,valor,parcelas,data)
-            extratosController.registrarTransacao('Credito adquirido',valor,clienteLogado['numeroConta'],0)
+            verificacao = str.isnumeric(valor)
+            verificacaoParcela = str.isnumeric(parcelas)
+            verificacaoDia = str.isnumeric(data)
+            if verificacao == True and verificacaoParcela == True:
+                while len(data) !=2 and int(data)>31:
+                    print('Digite a data com dois algorismos significativos, caso tenha só uma unidade, coloque o zero na frente.\n')
+                    data=str(input('Qual dia do mês você vai querer realizar o pagamento das parcelas? [dd]'))
+                clientesController.solicitarCredito(clienteLogado,float(valor),int(parcelas),data)
+                extratosController.registrarTransacao('Credito adquirido',valor,clienteLogado['numeroConta'],0)
+            elif verificacao == False or verificacaoParcela == False:
+                print("Por favor, tente realizar a operação novamente e adicione valores válidos de quantidade de parcelas e/ou valor.\n")
+                
             
         elif operacao == '4':
             print('Você escolheu a operação de pagamento programado')
-            valor = float(input('Qual valor do seu pagamento programado? \n'))
-            pagamento = clientesController.pagamentoProgramado(valor,clienteLogado)
-            if pagamento == True:
-                extratosController.registrarTransacao('Pagamento Programado',valor,clienteLogado['numeroConta'],0)
-            elif pagamento == False:
-                pass
+            valor = input('Qual valor do seu pagamento programado? \n')
+            verificacao=str.isnumeric(valor)
+            if verificacao == True:
+                pagamento = clientesController.pagamentoProgramado(float(valor),clienteLogado)
+                if pagamento == True:
+                    extratosController.registrarTransacao('Pagamento Programado',valor,clienteLogado['numeroConta'],0)
+                    
+            elif verificacao == False:
+                print('Escolha um valor numérico e tente realizar a operação novamente.')
+                
         elif operacao == '5':
             print('Você vai emitir extrato')
             extratosController.mostrarExtrato(clienteLogado['numeroConta'])
